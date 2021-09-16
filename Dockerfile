@@ -36,7 +36,7 @@ RUN cmake -S ../${LLVM_SOURCE_DIR}/llvm \
 -DCMAKE_BUILD_TYPE=Release
 
 RUN cmake --build .
-RUN cmake --build . --target install-distribution
+RUN cmake --build . --target install
 ENV PATH="${LLVM_INSTALL}:${PATH}"
 
 FROM ubuntu:20.04 as llvmdist
