@@ -38,7 +38,7 @@ RUN cmake -S ../${LLVM_SOURCE_DIR}/llvm \
 RUN cmake --build .
 RUN cmake --build . --target install
 ENV PATH="${LLVM_INSTALL}:${PATH}"
-WORKDIR /root
+# WORKDIR /root
 # RUN tar -czvf ${LLVM}.tag.gz ${LLVM_INSTALL}
 
 FROM ubuntu:20.04 as llvmdist
