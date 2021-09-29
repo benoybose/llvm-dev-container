@@ -29,7 +29,7 @@ RUN mkdir ${LLVM_BUILD}
 WORKDIR ${LLVM_BUILD}
 
 RUN cmake -S ../${LLVM_SOURCE_DIR}/llvm \
--DLLVM_ENABLE_PROJECTS="clang;lldb;lld" \
+-DLLVM_ENABLE_PROJECTS="clang;lld;libunwind" \
 -DLLVM_BUILD_LLVM_DYLIB=ON \
 -DLLVM_TARGETS_TO_BUILD="X86;WebAssembly;AArch64;ARM" \
 -DCMAKE_INSTALL_PREFIX=${LLVM_INSTALL} \
@@ -39,7 +39,7 @@ RUN cmake --build .
 RUN cmake --build . --target install
 ENV PATH="${LLVM_INSTALL}:${PATH}"
 WORKDIR /root
-RUN tar -czvf ${LLVM}.tag.gz ${LLVM_INSTALL}
+# RUN tar -czvf ${LLVM}.tag.gz ${LLVM_INSTALL}
 
 FROM ubuntu:20.04 as llvmdist
 ARG DEBIAN_FRONTEND
@@ -49,4 +49,4 @@ ARG LLVM
 RUN apt-get update
 RUN apt-get install --yes make cmake
 COPY --from=llvmbuild ${LLVM_INSTALL} /usr/local
-COPY --from=llvmbuild /root/${LLVM}.tag.gz /root
+# COPY --from=llvmbuild /root/${LLVM}.tag.gz /root
