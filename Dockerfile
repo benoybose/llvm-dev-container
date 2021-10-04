@@ -14,7 +14,7 @@ ARG LLVM_BUILD
 ARG LLVM_INSTALL
 
 RUN apt-get update
-RUN apt-get install --yes make cmake curl build-essential python3
+RUN apt-get install --yes make cmake curl build-essential python3 ninja-build
 RUN mkdir ${LLVM_ROOT}
 WORKDIR ${LLVM_ROOT}
 
@@ -28,8 +28,8 @@ RUN rm ${LLVM}.tag.gz
 RUN mkdir ${LLVM_BUILD}
 WORKDIR ${LLVM_BUILD}
 
-RUN cmake -S ../${LLVM_SOURCE_DIR}/llvm \
--DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;lld;lldb;libunwind" \
+RUN cmake -G Ninja -S ../${LLVM_SOURCE_DIR}/llvm \
+-DLLVM_ENABLE_PROJECTS="clang;lld;lldb;libunwind" \
 -DLLVM_BUILD_LLVM_DYLIB=ON \
 -DLLVM_TARGETS_TO_BUILD="X86;WebAssembly;AArch64;ARM" \
 -DCMAKE_INSTALL_PREFIX=${LLVM_INSTALL} \
